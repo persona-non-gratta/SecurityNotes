@@ -4,7 +4,7 @@ tags:
   - linux
 ---
 
-#### Impacket - Packet Building (Example from [[Archetype CTF - HACK THE BOX - WRITE-UP]] (MSSQL))
+#### Impacket - Packet Building (Example from [Archetype CTF - HACK THE BOX - WRITE-UP](<../Archetype CTF - HACK THE BOX - WRITE-UP>) (MSSQL))
 We use **mssqlclient.py script for establishing connection**, using `-windows-auth` flag for the authentication via NTLM (directly through Windows), instead of basic SQL Authentication and providing obtained credentials. 
 ``` bash
 python3 mssqlclient.py ARCHETYPE/sql_svc@10.129.160.52 -windows-auth -debug

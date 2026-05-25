@@ -69,11 +69,11 @@ Scanning gives us **4 opened (services) ports** and one interesting detail - **w
 
 Port 80 - **dummy web-page**. 
 Zero interactive, zero backend - just html landing page - nothing interesting. 
-![[Pasted image 20260522080808.png]]
+![](<../assets/img/Pasted image 20260522080808.png>)
 
 Port 3552 - **Arcane -  Docker Management** 
 login form (dashboard) and link to the project's github page.
-![[Pasted image 20260522080920.png]]
+![](<../assets/img/Pasted image 20260522080920.png>)
 **What is Docker?** According to the official documentation (wiki): `Docker is a set of products that uses operating system-level virtualization to deliver software in packages called containers. Docker automates the deployment of applications within lightweight containers, enabling them to run consistently across different computing environments.`
 
 **Or in other words:** Docker is an application that allows users to run services, applications, and processes inside isolated environments called containers without worrying about affecting or corrupting the host system.
@@ -142,13 +142,13 @@ Our subdomain scanning  have identified 2 values:
 | bin.our-url.com | PrivateBin - opensource online pastebin where the server has zero knowledge of pasted data, using for secure exchanging of any data |
 
 **MCPJam (Version: v1.4.2)** - AI management platform. 
-![[Pasted image 20260521182719.png]]
+![](<../assets/img/Pasted image 20260521182719.png>)
 
-![[Pasted image 20260521182805.png]]
+![](<../assets/img/Pasted image 20260521182805.png>)
 
 
 **PrivateBin (Version 2.0.2)** - Pastebin platform.
-![[Pasted image 20260522084430.png]]
+![](<../assets/img/Pasted image 20260522084430.png>)
 
 ---
 # Foothold 
@@ -363,20 +363,20 @@ However we can use our leaked one.
 
 We are in the system as an administrator! Now, we can create the privileged (root) container with next parameters: 
 
-![[Pasted image 20260521182356.png]]
+![](<../assets/img/Pasted image 20260521182356.png>)
 `name` - any container name
 `user` - 0 (root user's id)
 `image` - `privatebin/nginx-fpm-alpine:2.0.2`
 `command` - /bin/bash
 
 
-![[Pasted image 20260521182411.png]]
+![](<../assets/img/Pasted image 20260521182411.png>)
 `Volume mounts:` /:/hostfs - we mount the whole system's directory (`/`) to our container (docker uses /hostfs file for writing which volumes are mounted)
 
-![[Pasted image 20260521182420.png]]
+![](<../assets/img/Pasted image 20260521182420.png>)
 `privileged mode`: true
 
-![[Pasted image 20260521182331.png]]
+![](<../assets/img/Pasted image 20260521182331.png>)
 We are free to explore the entire system because we mounted all its directories, and can finally search for the root flag.
 
 ---
@@ -386,7 +386,7 @@ Now, we are totally free - we can generate ssh-keys for future connections, set 
 ---
 # Kill-Chain
 
-![[killchain.png.png]]
+![](<../assets/img/killchain_kobold.png>)
 MITRE ATT&CK Kill Chain - **T1046** `(Network service discovery)` $\rightarrow$ **T1190** (`Exploit public-facing app)` $\rightarrow$ **T1059.004** `(Unix shell) `$\rightarrow$ **T1082 + T1613** `(System + container discovery)` $\rightarrow$ **T1505.003** `(Web shell)` $\rightarrow$ **T1552.001** `(Credentials in Files)` $\rightarrow$ **T1078** `(Valid accounts)` $\rightarrow$ **T1610 + T1611** `(Deploy container + escape to host)`
 
 ---
