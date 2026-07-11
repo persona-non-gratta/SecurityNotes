@@ -1,17 +1,13 @@
----
-tags:
-  - initial_access
-  - linux
----
+# Impacket 
 
 #### Impacket - Packet Building (Example from [Archetype CTF - HACK THE BOX - WRITE-UP](<../Archetype CTF - HACK THE BOX - WRITE-UP>) (MSSQL))
 We use **mssqlclient.py script for establishing connection**, using `-windows-auth` flag for the authentication via NTLM (directly through Windows), instead of basic SQL Authentication and providing obtained credentials. 
 ``` bash
-python3 mssqlclient.py ARCHETYPE/sql_svc@10.129.160.52 -windows-auth -debug
+python3 mssqlclient.py ARCHETYPE/sql_svc@<ip> -windows-auth -debug
 Impacket v0.13.1 - Copyright Fortra, LLC and its affiliated companies 
 
 [+] Impacket Library Installation Path: /home/personanongratta/.pyenv/versions/3.12.8/lib/python3.12/site-packages/impacket
-Password: <M3g4c0rp123>
+Password: <password>
 [*] Encryption required, switching to TLS
 [+] Computed MIC is 1bc461caebeabf5b8730acc3bfa23e1c
 [*] ENVCHANGE(DATABASE): Old Value: master, New Value: master

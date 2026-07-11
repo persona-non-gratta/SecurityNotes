@@ -1,10 +1,4 @@
----
-tags:
-  - attack
-  - web
-  - initial_access
-  - lateral_movement
----
+# Insecure direct object references
 **IDOR** - type of access control vulnerabilities **that arises when an application uses user-supplied input to access objects directly.**
 ### IDOR - Direct reference to static files
 IDOR vulnerabilities often arise when **sensitive resources are located in static files on the server-side filesystem.** 
