@@ -1,9 +1,5 @@
----
-tags:
-  - CTF
-  - Write-Up
----
----
+# Archetype CTF - HACK THE BOX - WRITE-UP 
+
 # Enumeration
 First step of any Penetration Testing is Enumeration. Nmap with the next flags gives us all comprehensive information:
 

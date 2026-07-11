@@ -1,9 +1,5 @@
----
-tags:
-  - CTF
-  - Write-Up
----
----
+# Kobold - CTF - HACK THE BOX.
+
 # Enumeration
 
 ``` bash
@@ -13,9 +9,9 @@ tags:
 ```
 
 ``` bash
-~ nmap -sC -sV -p- 10.129.2.17
+~ nmap -sC -sV -p- <ip>
 Starting Nmap 7.99 ( https://nmap.org ) at 2026-05-22 07:19 +0000
-Nmap scan report for kobold.htb (10.129.2.17)
+Nmap scan report for kobold.htb (<ip>)
 Host is up (0.050s latency).
 Not shown: 65531 closed tcp ports (conn-refused)
 PORT     STATE SERVICE  VERSION
@@ -97,7 +93,7 @@ curl -k https://kobold.htb -H "Host: subdomaincheck.kobold.htb" | wc -c
 
 After, using `ffuf` we start subdomain enumeration
 ```
-ffuf -w ~/Documents/SecLists/Discovery/DNS/bitquark-subdomains-top100000.txt -u https://10.129.2.17 -H "Host: FUZZ.kobold.htb" -k -fs 154 -ac
+ffuf -w ~/Documents/SecLists/Discovery/DNS/bitquark-subdomains-top100000.txt -u https://<ip> -H "Host: FUZZ.kobold.htb" -k -fs 154 -ac
 
         /'___\  /'___\           /'___\       
        /\ \__/ /\ \__/  __  __  /\ \__/       
@@ -110,7 +106,7 @@ ffuf -w ~/Documents/SecLists/Discovery/DNS/bitquark-subdomains-top100000.txt -u 
 ________________________________________________
 
  :: Method           : GET
- :: URL              : https://10.129.2.17
+ :: URL              : https://<ip>
  :: Wordlist         : FUZZ: /home/personanongratta/Documents/SecLists/Discovery/DNS/bitquark-subdomains-top100000.txt
  :: Header           : Host: FUZZ.kobold.htb
  :: Follow redirects : false
