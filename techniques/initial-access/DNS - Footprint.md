@@ -1,0 +1,60 @@
+---
+tags:
+  - enumeration
+  - footprint
+  - web
+  - recon
+---
+| Server Type                    | Description                                                                                                     |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| `Non-authoritative Nameserver` | collects information on specific DNS zones themselves, which is done using recursive or iterative DNS querying. |
+| `Caching DNS Server`           | caches information from other name servers for a specified period.                                              |
+| `Forwarding Server`            | forwards DNS queries to another DNS server                                                                      |
+# Types of Records 
+
+| RECORD  | Description                                            |
+| ------- | ------------------------------------------------------ |
+| `A`     | Returns IPv4 address                                   |
+| `AAAA`  | Returns IPv6 address                                   |
+| `MX`    | Returns mail servers                                   |
+| `NS`    | DNS servers of the domain (nameservers)                |
+| `TXT`   | Many interesting information                           |
+| `CNAME` | This record serves as an alias for another domain name |
+| `PTR`   | Converts IP to the appropriate domain name             |
+| `SOA`   | Provides information about zoneinfo                    |
+
+## Bind9 Basic DNS
+```bash
+cat /etc/bind/named.conf.local
+cat /etc/bind/db.domain.com  # zone file
+cat /etc/bind/db.10.129.14   # reverse zone file
+```
+
+# Dangerous Settings
+
+
+| Option              | Description                                                           |
+| ------------------- | --------------------------------------------------------------------- |
+| `allow-query`       | which hosts are allowed to send requests to the DNS server            |
+| `allow-recursion`   | which hosts are allowed to send recursive requests to the DNS server  |
+| `allow-transfering` | which hosts are allowed to receive zone transfers from the DNS server |
+| `zone-statistics`   | Collects statistical data of zones.                                   |
+![[Pasted image 20260625122212.jpg]]
+
+---
+
+# Footprinting
+```bash
+dig NS <domain> @<ip>
+dig TXT <domain> @<ip>
+dig ANY <domain> @<ip>
+dig MX <domain> @<ip>
+dig axfr <domain> @<ip>
+dig soa <domain> @<ip>
+```
+
+#### Brute-Forcing
+[[ffuf - Subdomain and Directory Discovery]]
+```bash
+for sub in $(cat /opt/useful/seclists/Discovery/DNS/subdomains-top1million-110000.txt);do dig $sub.<domain>@<ip> | grep -v ';\|SOA' | sed -r '/^\s*$/d' | grep $sub | tee -a subdomains.txt;done
+```
