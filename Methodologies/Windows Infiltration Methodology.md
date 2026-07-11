@@ -1,13 +1,4 @@
----
-tags:
-  - Methodology
-  - windows
-  - system
-  - payload
-  - enumeration
-  - recon
----
----
+# Windows Infiltration Methodology.md
 
 ### 1. Enumerate the target
 Enumerate the ENTIRE TARGET:
@@ -21,7 +12,7 @@ Enumerate the ENTIRE TARGET:
 sudo nmap -sn <ip>/mask                                  # ip ranges
 sudo nmap -O <ip>                                        # OS discovery
 sudo nmap -sV --script=banner --reason -p- <ip>          # scan all ports + display versions
-sudo nmap --script=discovery -p <port(s)> / -p- -O <ip>  # discvocery scan. VERY NOISY, but                                                           gives all possible information 
+sudo nmap --script=discovery -p <port(s)> / -p- -O <ip>  # discvocery scan. VERY NOISY, but gives all possible information 
 ```
 
 You can add `-T5` to significantly accelerate the scan. ONLY IF PERMITTED! Could be Destructive.

@@ -1,9 +1,4 @@
----
-tags:
-  - windows
-  - privilege-escalation
-  - enumeration
----
+
 # Windows Local Enumeration Methodology
 
 Reordered from your original note into a "who am I → what's around me → what can I abuse" flow. This mirrors how you'd actually work a box: confirm context first, then widen out to users/system, then processes/tasks/network, then permissions and policy (the things that actually gate escalation), and finish with automated tooling as a cross-check — not a starting point.
