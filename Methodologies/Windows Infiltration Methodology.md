@@ -18,7 +18,7 @@ sudo nmap --script=discovery -p <port(s)> / -p- -O <ip>  # discvocery scan. VERY
 You can add `-T5` to significantly accelerate the scan. ONLY IF PERMITTED! Could be Destructive.
 
 ### 2. Exploit Vulnerable Services (Service Case)
-**0. Automated Solution** - [[NetExec]]
+**0. Automated Solution** - NetExecㅤㅤㅤㅤ
 **1. For each service, do individual enumeration to look for more information and vulnerabilities**
 	 Search in Metasploit for service exploits (based on version) 
 	 Search in ExploitDB for service exploits (based on version) (`search-sploit`)
@@ -28,16 +28,16 @@ You can add `-T5` to significantly accelerate the scan. ONLY IF PERMITTED! Could
 		 Document all Discovered Vulnerabilities!
 
 **2. Examines File Share - Protocols**
-	[[FTP - Footprint]]
-	[[SMB - Footprint]]
-	[[NFS - Footprint]] (showmount -e ip)
-		 Useful: [[NetExec]] 
+	ㅤㅤㅤㅤFTP ㅤㅤㅤㅤ
+	ㅤㅤㅤㅤSMB ㅤㅤㅤㅤ
+	ㅤㅤㅤㅤNFS ㅤㅤㅤㅤ (showmount -e ip)
+		 Useful: ㅤㅤㅤㅤNetExecㅤㅤㅤㅤ 
 Look for credentials - users - groups - permissions - Document all Findings!
 
 **3.  Check Management Protocols** 
-	[[IPMI - Footprint]]
-	[[SNMP]] (onesixtyone -> snmpwalk) (UDP!)
-	[[Oracle TNS - Footprint]]
+	ㅤㅤㅤㅤIPMI ㅤㅤㅤㅤ
+	ㅤㅤㅤㅤSNMPㅤ(onesixtyone -> snmpwalk) (UDP!)
+	ㅤㅤㅤㅤOracle TNS ㅤㅤㅤㅤ
 **4. Check Metasploit-Framework for CVE's** 
 **5. Check ExploitDB for CVE's
 
