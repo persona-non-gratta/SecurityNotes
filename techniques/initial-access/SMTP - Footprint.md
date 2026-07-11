@@ -1,17 +1,9 @@
----
-tags:
-  - protocol
-  - enumeration
-  - footprint
-  - recon
-cssclasses:
-  - "[[IMAP & POP3]]"
----
+# Simple Mail Transfer Protocol
 ---
 
 ## Nmap Base Scanning
 ```bash
-sudo nmap -sC -sV 10.129.68.6 
+sudo nmap -sC -sV <ip>
 Host is up (0.060s latency).
 Not shown: 992 closed tcp ports (reset)
 PORT     STATE SERVICE  VERSION
@@ -30,7 +22,7 @@ PORT     STATE SERVICE  VERSION
 ## Nmap - Open Relay (NSE)
 
 ```bash
- nmap --script=smtp-enum-users.nse  10.129.68.6 -p 25     
+ nmap --script=smtp-enum-users.nse  <ip> -p 25     
  PORT   STATE SERVICE
 25/tcp open  smtp
 | smtp-enum-users: 
