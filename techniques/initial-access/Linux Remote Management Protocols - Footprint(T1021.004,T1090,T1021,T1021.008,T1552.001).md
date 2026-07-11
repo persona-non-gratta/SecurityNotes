@@ -1,12 +1,4 @@
----
-tags:
-  - footprint
-  - protocol
-  - linux
-  - system
-  - network
----
----
+
 # SSH
 #### Dangerous Settings
 
@@ -42,7 +34,7 @@ tags:
 Specifying authentication method - `PreferredAuthentications` with brute-force
 
 ```bash
- ssh -v cry0l1t3@10.129.14.132
+ ssh -v user@<ip>
 OpenSSH_8.2p1 Ubuntu-4ubuntu0.3, OpenSSL 1.1.1f  31 Mar 2020
 debug1: Reading configuration data /etc/ssh/ssh_config 
 ...SNIP...
@@ -50,7 +42,7 @@ debug1: Authentications that can continue: publickey,password,keyboard-interacti
 ```
 
 ```bash
-ssh -v cry0l1t3@10.129.14.132 -o PreferredAuthentications=password
+ssh -v <user>@<ip> -o PreferredAuthentications=password
 ```
 
 
@@ -110,7 +102,7 @@ Span across ports `512`, `513` `514`
 The primary concern of `r-servies`, and one of the primary reasons `SSH` was introduces to replace it, is the inherent issues regarding access control for these protocols. `r-services` rely of `/etc/hosts.equiv`  and `.rhosts` files on the system. Both files contains `Hostname or IPs` and name of trusted `users`.
 
 
-> [!NOTE] Details
+> Details
 > `.rhosts` provides access based on usernames, while `/etc/hosts.equiv` file is recognized as the global configuration 
 
 ###### `/etc/hosts.equiv `
@@ -118,25 +110,22 @@ contains trusted entries to grant full access without any authentication
 ```bash
 cat /etc/hosts.equiv 
 # <hostname> <local username>
-bubuntu      bubuntuuser
+ubuntu      ubuntuuser
 ```
 
 ###### Sample `.rhosts` File
 ```bash
 cat .rhosts
-htb-student     10.0.17.5
-+               10.0.17.10 # "+" is like a wildcard, meaning "any", disabling security checks
+htb-student     <ip>
++               <anotherip> # "+" is like a wildcard, meaning "any", disabling security checks
 +               +            
 ```
 
 #### Log in && listing Users
 ``` bash
-rlogin 10.0.17.2 -l htb-student # log in 
+rlogin <ip> -l htb-student # log in 
 
-rwho                  # can be broadcasted!
+rwho                  # can be broadcasted!!!!
 root web01:pts/0 Dec 2 21:34 
-htb-student workstn01:tty1 Dec 2 19:57 2:25
-
-
-rusers -al 10.0.17.5 htb-student 10.0.17.5:console Dec 2 19:57 2:25 # extended version
+user workstn01:tty1 Dec 2 19:57 2:25
 ```
