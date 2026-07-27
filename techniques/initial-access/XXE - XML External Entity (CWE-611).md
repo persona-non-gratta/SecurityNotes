@@ -1,11 +1,5 @@
----
-tags:
-  - vulnerability
-  - web
-cssclasses:
-  - "[[XXE - XML External Entity]]"
----
----
+# XML External Entity Injection (aka XXE)
+
 # Impact
 - File Disclosure (File Reading)
 - SSRF attacks 
