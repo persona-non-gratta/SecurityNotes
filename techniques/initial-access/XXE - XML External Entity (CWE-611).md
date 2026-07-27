@@ -13,7 +13,7 @@
 **XML External Entity** Injection - attacker can interfere  with the processing (parsing) of XML, consequently interacting with application's backend or external systems
 
 
-![[Pasted image 20260726180217.png]]
+![](<../../assets/img/xml/Pasted image 20260726180217.png>)
 
 **ENTITY** - used for describing  and representing data 
 ```XML
@@ -51,11 +51,11 @@
 </xxepayload>
 ```
 
-![[Pasted image 20260726184108.png]]
+![](<../../assets/img/xml/Pasted image 20260726184108.png>)
 
 ### Server-Side Request Forgery (SSRF)
 Server-Side Request Forgery - attacker crafts **GET request** where **trigger the endpoint (e.x) with sensitive information.** Main Trick: basically, we can't access internal endpoints, BUT! Server can, so we ask him for doing it using SSRF.
-![[Pasted image 20260726193126.png]]
+![](<../../assets/img/xml/Pasted image 20260726193126.png>)
 
 ```xml
 <!DOCTYPE ssrf <!ENTITY ssrfvuln "http://<SERVER'S IP or DOMAIN>/path/to/endpoint"> ]>
@@ -162,21 +162,21 @@ If we are able to use `php`, we can export large files (like /etc/passwd), cuz w
 
 
 Step 1: We create malicious dtd file, which contains entity %file (/etc/hostname) and entity which  refers to our host (? - starts the query x= a query parameter (x could be replaced with other naming))
-![[Pasted image 20260727002622.png]]
+![](<../../assets/img/xml/Pasted image 20260727002622.png>)
 
 Step 2: We Insert payload, which will refer to our local hosted dtd file
-![[Pasted image 20260727002636.png]]
+![](<../../assets/img/xml/Pasted image 20260727002636.png>)
 
 Step 3: We access information
-![[Pasted image 20260727002602.png]]
+![](<../../assets/img/xml/Pasted image 20260727002602.png>)
 
 ##### via error message
 We try to call any nonexistent file, before specifying %file entity, containing information. SAME MECHANISM. (almost)
 
 In plain English: give me content of nonexistent and after information from your memory about %file
-![[Pasted image 20260727000839.png]]
+![](<../../assets/img/xml/Pasted image 20260727000839.png>)
 
-![[Pasted image 20260727000814.png]]
+![](<../../assets/img/xml/Pasted image 20260727000814.png>)
 
 ```txt
 display  →  "go download this file"           (happens in the payload)
