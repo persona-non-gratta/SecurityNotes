@@ -1,5 +1,49 @@
 # Enumeration
 ```bash
+ sudo nmap -v --min-rate=100000 <target's ip> -p-   
+[sudo] password for outdat3d: 
+Starting Nmap 7.99 ( https://nmap.org ) at 2026-07-30 00:33 +0300
+Initiating Ping Scan at 00:33
+Scanning <target's ip> [4 ports]
+Completed Ping Scan at 00:33, 0.08s elapsed (1 total hosts)
+Initiating Parallel DNS resolution of 1 host. at 00:33
+Completed Parallel DNS resolution of 1 host. at 00:33, 0.50s elapsed
+Initiating SYN Stealth Scan at 00:33
+Scanning <target's ip> [65535 ports]
+Discovered open port 3389/tcp on <target's ip>
+Discovered open port 445/tcp on <target's ip>
+Discovered open port 53/tcp on <target's ip>
+Discovered open port 135/tcp on <target's ip>
+Discovered open port 139/tcp on <target's ip>
+Discovered open port 59495/tcp on <target's ip>
+Discovered open port 389/tcp on <target's ip>
+Discovered open port 5985/tcp on <target's ip>
+Discovered open port 59610/tcp on <target's ip>
+Discovered open port 51847/tcp on <target's ip>
+Discovered open port 593/tcp on <target's ip>
+Completed SYN Stealth Scan at 00:33, 4.21s elapsed (65535 total ports)
+Nmap scan report for <target's ip>
+Host is up (0.11s latency).
+Not shown: 65524 filtered tcp ports (no-response)
+PORT      STATE SERVICE
+53/tcp    open  domain
+135/tcp   open  msrpc
+139/tcp   open  netbios-ssn
+389/tcp   open  ldap
+445/tcp   open  microsoft-ds
+593/tcp   open  http-rpc-epmap
+3389/tcp  open  ms-wbt-server
+5985/tcp  open  wsman
+51847/tcp open  unknown
+59495/tcp open  unknown
+59610/tcp open  unknown
+
+Read data files from: /usr/bin/../share/nmap
+Nmap done: 1 IP address (1 host up) scanned in 4.87 seconds
+           Raw packets sent: 327647 (14.416MB) | Rcvd: 28 (1.216KB)
+
+
+
  sudo nmap -sC -sV <target's ip> -p- -T5                                                     
 Starting Nmap 7.99 ( https://nmap.org ) at 2026-07-28 09:41 +0300
 Nmap scan report for <target's ip>
