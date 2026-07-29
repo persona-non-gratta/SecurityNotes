@@ -1,7 +1,6 @@
 # Enumeration
 ```bash
- sudo nmap -v --min-rate=100000 <target's ip> -p-   
-[sudo] password for outdat3d: 
+ sudo nmap -v --min-rate=100000 <target's ip> -p-    
 Starting Nmap 7.99 ( https://nmap.org ) at 2026-07-30 00:33 +0300
 Initiating Ping Scan at 00:33
 Scanning <target's ip> [4 ports]
