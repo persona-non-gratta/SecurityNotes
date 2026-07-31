@@ -542,9 +542,9 @@ nxc ldap 10.129.38.65 -u 'svc_deploy' -p 'E3R$Q62^12p7PLlC%KWaxuaV' -M laps
 	!!! **It can leads to privilege escalation**. If destination directory has weak NTFS permissions an attacker can simply modify or replace the file with malicious one 
 3. Startup Time
 
-![[Pasted image 20260603082152.png|697]]
+![](<../assets/img/Pasted image 20260603082152.png>)
 
-![[Pasted image 20260603082154.png|689]]
+![](<../assets/img/Pasted image 20260603082154.png>)
 
 **Notable built-in service accounts in Windows:**
 - LocalService - minimum privileges (weaker than user account), used for services, which don't need any Internet Access and Credentials (in the LAN is anonymous)
@@ -552,7 +552,7 @@ nxc ldap 10.129.38.65 -u 'svc_deploy' -p 'E3R$Q62^12p7PLlC%KWaxuaV' -M laps
 - LocalSystem - the highest existing privilege on the individual OS!
 
 ##### Running After the First Failure method
-![[Pasted image 20260603084318.png]]
+![](<../assets/img/Pasted image 20260603084318.png>)
 In the **Recovery** tab, a service can be configured to `execute another program` after the first failure. If you have `sc config` rights on a service running as `LocalSystem`, you can hijack its execution:
 ```powershell
 sc config VulnService binPath= "cmd.exe /c net user Administrator NewPass123!"        # change a password
