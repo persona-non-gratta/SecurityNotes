@@ -34,7 +34,7 @@
 | PowerShell | Microsoft's modern shell + scripting language (built on .NET CLR). Most flexible option for gaining a shell/execution on a host.                                       |
 
 ---
-# Enumeration
+# Enumeration (General)
 
 `ping <ip>` and compare TTL against a [TTL reference table](https://subinsb.com/default-device-ttl-values/) for a quick OS guess.
 
@@ -58,7 +58,8 @@ sudo nmap --script=discovery -p <port(s)>/-p- -O <ip>     # discovery scan — v
 3. Management protocols worth checking: IPMI, SNMP (`onesixtyone` → `snmpwalk`, UDP), Oracle TNS.
 4. Cross-check both Metasploit and ExploitDB for CVEs matching the discovered OS build — compare against [Microsoft's CVE list](https://www.cvedetails.com/vendor/26/Microsoft.html).
 
-
+# Enumeration (Active Directory/Windows) 
+ 
 **`Lightweight Directory Access Protocol (LDAP)`** — a protocol that provides access to Active Directory's centralized database, allowing queries and modifications against objects such as: usernames, groups, distinguished names (DNs), computers, organizational units (OUs), permissions, group policies, and their attributes.
 
 **`Offensive Vector:`** Since LDAP is often queryable, we can attempt an anonymous bind - authenticating without any credentials (empty username and password fields) - to see if the directory permits unauthenticated access. If successful we can expose priceless information, about Active Directory Structure, which could be exfiltrated and use it for the further attacks. **SERVICE IS THE PRIMARY TARGET OF ENUMERATION!**
