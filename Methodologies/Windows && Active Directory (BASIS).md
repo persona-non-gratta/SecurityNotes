@@ -1,3 +1,4 @@
+# Windows & Active Directory - Enumeration & Exploitation Methodology
 ### Active Directory Definitions
 **`Active Directory`** - Microsoft implementation used for centalised system management. It performs: user authentication, locating computers by names, applies policies to users and computers, discovers abd locate services (MSSQL, DNS) and stores configuration data.  
 
@@ -538,7 +539,7 @@ nxc ldap 10.129.38.65 -u 'svc_deploy' -p 'E3R$Q62^12p7PLlC%KWaxuaV' -M laps
 `sevices.msc` - basic buit-in service management application, based on its information we can identify:
 1. Service Name
 2. Full Path to Executable File
-	!!! **It can leads to privilege escalation**. If destination directory has weak NTFS permissions an attacker can simply modify or replace the file with malicious one **([[Code Injection]] )**
+	!!! **It can leads to privilege escalation**. If destination directory has weak NTFS permissions an attacker can simply modify or replace the file with malicious one 
 3. Startup Time
 
 ![[Pasted image 20260603082152.png|697]]
