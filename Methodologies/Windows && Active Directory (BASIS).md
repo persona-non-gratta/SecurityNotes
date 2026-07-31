@@ -8,7 +8,9 @@
 
 **Execution Policy** — a security control that limits which PowerShell scripts can run. Scopes: `MachinePolicy`, `UserPolicy`, `Process`, `CurrentUser`, `LocalMachine`.
 
-`Get-ExecutionPolicy -List` - Check Execution Policy
+``` powershell
+Get-ExecutionPolicy -List        # Check Execution Policy
+``` 
 **NOTE!** - custom scripts wrote directly ON THE MACHINE (like in notepad or vscode) will bypass restictions! 
 
 |Policy|Description|
