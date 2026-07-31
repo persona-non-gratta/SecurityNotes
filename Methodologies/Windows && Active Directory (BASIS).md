@@ -163,7 +163,7 @@ evil-winrm-py -u <user> --cert-pem <certificate.crt> --priv-key-pem <private.key
 
 ---
 
-# Windows Local Enumeration Methodology
+# Windows Local Enumeration 
 
 users/system → processes/tasks/network → permissions/policy (the things that actually gate escalation) → automated tooling as a final cross-check, not a starting point.
 
